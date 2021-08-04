@@ -8,7 +8,7 @@ class WeatherViewController: UIViewController {
     @IBOutlet weak var conditionImageView: UIImageView!
     @IBOutlet weak var temperatureLabel: UILabel!
     @IBOutlet weak var cityLabel: UILabel!
-    @IBOutlet weak var SearchField: UITextField!
+    @IBOutlet weak var searchTextField: UITextField!
     var weatherManger = WeatherManager()
     let locationManager = CLLocationManager()
 override func viewDidLoad()
@@ -18,7 +18,7 @@ override func viewDidLoad()
         locationManager.requestWhenInUseAuthorization()
         locationManager.requestLocation()
      
-        SearchField.delegate = self
+        searchTextField.delegate = self
         weatherManger.delegate = self
     }
     
@@ -36,32 +36,30 @@ extension WeatherViewController : UITextFieldDelegate
 {
     @IBAction func SearchButtonPressed(_ sender: UIButton)
     {
-      SearchField.endEditing(true)
+      searchTextField.endEditing(true)
     }
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool
-    {
-      textField.endEditing(true)
-      return true
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        searchTextField.endEditing(true)
+        return true
     }
-    func textFieldShouldEndEditing(_ SearchField: UITextField) -> Bool
-    {
-        if SearchField.text != ""
-        {
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if searchTextField.text != "" {
             return true
-        }
-        else
-        {
-            SearchField.placeholder = "Type Something!"
+        } else {
+            searchTextField.placeholder = "Type something"
             return false
         }
     }
-    func textFieldDidEndEditing(_ Searchfiled: UITextField)
-    {
-        if let city = SearchField.text
-        {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        
+        if let city = searchTextField.text {
             weatherManger.fetchWeatherData(cityName: city)
         }
-        Searchfiled.text = ""
+        
+        searchTextField.text = ""
+        
     }
 }
 
